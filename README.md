@@ -13,8 +13,7 @@ browser (web/, static on Vercel)
 Vercel Python function  api/index.py  →  backend/server.py (game engine, stdlib only)
    │                         │
    │                         ├── Gemini API (primary narrator)
-   │                         ├── OpenRouter hosted Qwen 3 (fallback narrator)
-   │                         └── Ollama local Qwen 3 8B (fallback, laptop runs only)
+   │                         └── OpenRouter hosted Qwen 3 (fallback narrator)
    ▼
 Supabase Postgres: player_saves (one row per player), rate_limits
 ```
@@ -50,8 +49,8 @@ open http://127.0.0.1:8000
 ```
 
 Without `SUPABASE_URL`/`SUPABASE_SECRET_KEY` the game saves to `saves/save.json`.
-Optional local Qwen: install Ollama and `ollama pull qwen3:8b-q4_K_M`; it is used as a fallback automatically,
-or as the primary narrator with `LLM_PROVIDER=qwen`.
+Local Ollama Qwen is never used on the hosted site. On a laptop it is opt-in only: install Ollama,
+`ollama pull qwen3:8b-q4_K_M`, then set `ALLOW_LOCAL_QWEN=1` (last-resort fallback) or `LLM_PROVIDER=qwen` (primary).
 
 ## Code map
 

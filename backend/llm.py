@@ -1,7 +1,7 @@
 """Model router. Narration, dialogue and enemy-move picks only; Python stays authoritative for game state.
 
-LLM_PROVIDER=gemini (default): Gemini -> hosted Qwen (OpenRouter) -> local Qwen (laptop only).
-LLM_PROVIDER=qwen:             local Qwen -> Gemini -> hosted Qwen.
+Default: Gemini -> hosted Qwen 3 (OpenRouter). Local Ollama Qwen is never used on the hosted site;
+on a laptop it is used only when explicitly enabled (ALLOW_LOCAL_QWEN=1, or LLM_PROVIDER=qwen to make it primary).
 
 Each result carries {text, model, ms, tokens, provider, fallback}.
 """
@@ -20,8 +20,8 @@ class LLMError(Exception):
 def _order():
     order = (["gemini", "qwen_cloud", "qwen_local"] if config.LLM_PROVIDER == "gemini"
              else ["qwen_local", "gemini", "qwen_cloud"])
-    if config.CLOUD:
-        order = [p for p in order if p != "qwen_local"]  # no local Ollama in the cloud
+    if not config.ALLOW_LOCAL_QWEN:
+        order = [p for p in order if p != "qwen_local"]  # never on the hosted site; opt-in on a laptop
     return order
 
 
@@ -59,6 +59,12 @@ def chat(system, user, max_tokens=None, temperature=None, json_schema=None):
 
 
 def status():
+    missing = config.setup_missing()
+    if missing:
+        return {"runtime": "gemini", "ok": False, "state": "setup", "model": config.GEMINI_MODEL, "chain": [],
+                "setup_missing": missing,
+                "error": "Server setup incomplete: " + ", ".join(missing) + " not set in the hosting environment.",
+                "fallback": {"provider": "qwen_cloud", "configured": qwen_cloud.configured(), "model": config.QWEN_CLOUD_MODEL}}
     order = [p for p in _order() if _available(p)]
     primary = _order()[0]
     out = {"runtime": "gemini" if primary == "gemini" else "ollama",

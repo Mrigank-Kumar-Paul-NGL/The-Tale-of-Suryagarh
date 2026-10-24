@@ -76,6 +76,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def _bind_player(self):
         """Attach this request to the browser's anonymous player id. Required for saves in the cloud."""
+        missing = config.setup_missing()
+        if missing:
+            return 503, "Server setup incomplete: " + ", ".join(missing) + " not set in the hosting environment."
         h = storage.set_player(self.headers.get("X-Player-Token"))
         if config.CLOUD and not h:
             return 400, "Missing or invalid player id. Reload the page."

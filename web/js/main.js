@@ -15,13 +15,14 @@ const STATUS_TEXT = {
   checking: "Checking narrator…",
   online: "Gemini ready (online)",
   missing_key: "Gemini key missing",
-  loaded: "Qwen ready (in memory)",
-  idle: "Qwen ready (loads on first use)",
+  loaded: "Local Qwen ready",
+  idle: "Local Qwen ready",
   narrating: "Narrating…",
   fallback: "Fallback narrator active",
-  unreachable: "Qwen unreachable",
-  missing: "Qwen model missing",
-  error: "Qwen error",
+  unreachable: "Narrator unreachable",
+  missing: "Narrator model missing",
+  setup: "Server setup incomplete",
+  error: "Narrator error",
 };
 
 function setModelStatus(state, detail = "") {

@@ -77,8 +77,21 @@ SUPABASE_SECRET_KEY = os.environ.get("SUPABASE_SECRET_KEY", "").strip()   # serv
 if SUPABASE_URL and not SUPABASE_URL.startswith("https://"):
     raise SystemExit("SUPABASE_URL must be an https:// URL.")
 CLOUD = bool(SUPABASE_URL and SUPABASE_SECRET_KEY)
-# Public play: anyone with the link can play (each browser gets its own save). On for the cloud build.
-PUBLIC_PLAY = CLOUD or os.environ.get("PUBLIC_PLAY", "") == "1"
+ON_VERCEL = bool(os.environ.get("VERCEL"))          # set automatically by Vercel
+HOSTED = ON_VERCEL or CLOUD
+# Public play: anyone with the link can play (each browser gets its own save). Always on when hosted.
+PUBLIC_PLAY = HOSTED or os.environ.get("PUBLIC_PLAY", "") == "1"
+# Local Ollama Qwen is never used unless explicitly enabled on a laptop run; never on the hosted site.
+ALLOW_LOCAL_QWEN = (not HOSTED) and (os.environ.get("ALLOW_LOCAL_QWEN", "") == "1"
+                                     or os.environ.get("LLM_PROVIDER", "").strip().lower() == "qwen")
+
+
+def setup_missing():
+    """Names (never values) of required settings that are absent on the hosted site."""
+    if not HOSTED:
+        return []
+    need = {"SUPABASE_URL": SUPABASE_URL, "SUPABASE_SECRET_KEY": SUPABASE_SECRET_KEY, "GEMINI_API_KEY": GEMINI_API_KEY}
+    return [k for k, v in need.items() if not v]
 # Abuse limits (window seconds, max hits) — model calls cost money.
 RATE_LIMITS = {
     "narrate_player": (3600, 240),

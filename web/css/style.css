@@ -56,10 +56,12 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
 .model-status[data-state="unreachable"] .dot,
 .model-status[data-state="missing"] .dot,
 .model-status[data-state="missing_key"] .dot,
+.model-status[data-state="setup"] .dot,
 .model-status[data-state="error"] .dot { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
 .model-status[data-state="unreachable"],
 .model-status[data-state="missing"],
 .model-status[data-state="missing_key"],
+.model-status[data-state="setup"],
 .model-status[data-state="error"] { border-color: var(--bad); color: #f3b3a6; }
 @keyframes pulse { 50% { opacity: 0.3; } }
 
