@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Tale of Suryagarh</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="sigil" aria-hidden="true">☼</span>
+      <div>
+        <h1>The Tale of Suryagarh</h1>
+        <p class="sub">The City That Forgot the Sun</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div id="model-status" class="model-status" data-state="checking" title="">
+        <span class="dot"></span><span class="label">Checking narrator…</span>
+      </div>
+      <button id="btn-new" class="btn ghost small" hidden>New game</button>
+    </div>
+  </header>
+
+  <!-- Character creation -->
+  <main id="view-create" class="create" hidden>
+    <form id="create-form" class="panel create-panel" autocomplete="off" novalidate>
+      <h2 id="create-title">Who walks into the dark?</h2>
+      <nav id="create-steps" class="steps" aria-label="Character creation steps"></nav>
+
+      <!-- Step: identity -->
+      <section class="step" data-step="identity">
+        <p class="muted">Suryagarh has not seen the sun for seven days. Tell the city who you are.</p>
+        <div class="grid2">
+          <label class="field">Name
+            <input name="name" maxlength="40" placeholder="e.g. Aranya">
+          </label>
+          <label class="field">Pronouns
+            <input name="pronouns" maxlength="30" list="pronoun-list" placeholder="they/them">
+            <datalist id="pronoun-list">
+              <option value="she/her"><option value="he/him"><option value="they/them">
+            </datalist>
+          </label>
+        </div>
+        <fieldset class="field">
+          <legend>Ancestry</legend>
+          <div id="ancestry-options" class="choices"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Origin</legend>
+          <div id="origin-options" class="choices cols2"></div>
+        </fieldset>
+      </section>
+
+      <!-- Appearance steps are generated from the server's option list -->
+      <div id="appearance-steps"></div>
+
+      <section class="step" data-step="details">
+        <label class="field">Anything else the city would notice? <span class="muted">(optional)</span>
+          <textarea name="details" maxlength="200" rows="2"
+            placeholder="A braid threaded with copper rings, a scar across one palm…"></textarea>
+        </label>
+        <div id="appearance-preview" class="preview"></div>
+      </section>
+
+      <p id="create-error" class="error" role="alert" hidden></p>
+      <div class="step-nav">
+        <button type="button" id="step-back" class="btn ghost">Back</button>
+        <button type="submit" id="step-next" class="btn primary">Continue</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Game dashboard -->
+  <main id="view-game" class="dashboard" hidden>
+    <aside class="panel side char">
+      <div class="portrait" id="portrait" data-asset="portrait">
+        <span class="portrait-initial" id="portrait-initial"></span>
+      </div>
+      <h2 id="char-name"></h2>
+      <p class="muted small" id="char-meta"></p>
+      <p class="appearance" id="char-appearance"></p>
+
+      <div class="bars">
+        <div class="bar health"><span>Health</span><div class="track"><i id="bar-health"></i></div><b id="val-health"></b></div>
+        <div class="bar stamina"><span>Stamina</span><div class="track"><i id="bar-stamina"></i></div><b id="val-stamina"></b></div>
+        <div class="bar magicka"><span>Magicka</span><div class="track"><i id="bar-magicka"></i></div><b id="val-magicka"></b></div>
+      </div>
+
+      <dl class="kv">
+        <dt>Gold</dt><dd id="val-gold"></dd>
+        <dt>Carried</dt><dd id="val-weight"></dd>
+      </dl>
+
+      <h3>Equipped</h3>
+      <dl class="kv" id="equipment"></dl>
+
+      <h3>Satchel</h3>
+      <ul id="inventory" class="inventory"></ul>
+    </aside>
+
+    <section class="panel scene">
+      <div class="scene-art" id="scene-art">
+        <div class="scene-art-fallback"><span id="scene-title-art"></span></div>
+      </div>
+      <div class="scene-head">
+        <h2 id="scene-title"></h2>
+        <p class="objective"><span>Objective</span> <em id="scene-objective"></em></p>
+      </div>
+      <div id="scene-effects" class="effects" hidden></div>
+      <article id="narration" class="narration" aria-live="polite"></article>
+      <div id="narration-meta" class="narration-meta"></div>
+      <div id="scene-error" class="error" role="alert" hidden></div>
+      <div id="actions" class="actions"></div>
+      <section id="provisions" class="provisions" hidden></section>
+    </section>
+
+    <section class="panel combat" id="combat-view" hidden>
+      <div class="combat-head">
+        <div>
+          <h2 id="combat-title"></h2>
+          <p class="objective"><span>Goal</span> <em id="combat-goal"></em></p>
+          <p id="combat-status" class="combat-status" hidden></p>
+        </div>
+        <span class="turn-badge" id="combat-turn"></span>
+      </div>
+
+      <div id="enemies" class="enemies"></div>
+
+      <div class="combat-narration-box">
+        <article id="combat-narration" class="narration small-narration" aria-live="polite"></article>
+        <div id="combat-narration-meta" class="narration-meta"></div>
+      </div>
+      <div id="combat-error" class="error" role="alert" hidden></div>
+
+      <div id="combat-outcome" class="combat-outcome" hidden></div>
+
+      <div id="combat-controls" class="combat-controls">
+        <div class="ctl-label">Target</div>
+        <div id="targets" class="targets"></div>
+        <div id="combat-actions" class="combat-actions"></div>
+        <p id="action-hint" class="action-hint" hidden></p>
+        <p class="legend">Parry is strongest against quick attacks and a clean parry ripostes. Dodge is strongest against heavy, ranged and sweeping attacks. Guard is free but only softens blows. Attacking, catching your breath or drinking leaves you undefended. +10 Stamina at the end of every turn.</p>
+      </div>
+
+      <details class="log-wrap" open>
+        <summary>Combat log</summary>
+        <ol id="combat-log" class="combat-log"></ol>
+      </details>
+    </section>
+
+    <aside class="panel side info">
+      <h3>Journal</h3>
+      <ol id="journal" class="journal"></ol>
+      <h3>Dungeon Master</h3>
+      <p class="muted small" id="dm-info">Narration is generated by Google Gemini. Rules, rolls and state are decided by the game engine.</p>
+      <h3>Audio</h3>
+      <button id="btn-audio" class="btn ghost small" disabled title="Music and effects arrive in a later stage">Music: none loaded</button>
+    </aside>
+  </main>
+
+  <script src="config.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

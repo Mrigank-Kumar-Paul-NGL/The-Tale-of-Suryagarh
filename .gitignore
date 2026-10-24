@@ -1,0 +1,11 @@
+# Secrets and local state — never commit
+.env
+.env.*
+!.env.example
+saves/
+__pycache__/
+*.pyc
+.DS_Store
+.vercel/
+.claude/
+.python-version.local
