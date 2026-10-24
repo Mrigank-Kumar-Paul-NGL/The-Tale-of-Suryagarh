@@ -1,8 +1,31 @@
 # The Tale of Suryagarh
 
-A text RPG set in *The City That Forgot the Sun*. A Python engine decides every rule, roll and stat;
-an AI narrator (Google Gemini, with Qwen 3 as fallback) tells the story and picks enemy moves from the
-engine's legal list. Playable on the web.
+### ▶ [Play now: tale-of-suryagarh.vercel.app](https://tale-of-suryagarh.vercel.app)
+
+*Suryagarh has not seen the sun for seven days.* A brass wheel turns in the sky each dawn but never opens.
+Shadows creep across the rooftops, people are forgetting their own names, and asura raiders are pushing
+toward the palace. The ruler blames the dragon **Agnivara** for stealing the sun. Not everyone believes it.
+
+**The Tale of Suryagarh** is a dark-fantasy text RPG inspired by ancient India, narrated live by an AI
+dungeon master. Every playthrough is told fresh, but the rules are real: every roll, hit and coin is decided
+by the game engine, and bad decisions can get you killed.
+
+**What you do**
+
+- **Forge your hero.** Pick a name, ancestry (Human, Vanara or Naga-blooded), origin, and appearance.
+  The story remembers who you are and where you came from.
+- **Fight with your wits.** Read each enemy's tell, then strike, dodge, parry or guard. Manage Stamina
+  and Magicka, and drink potions at the right moment.
+- **Earn your gear.** Loot gold, take optional contracts, and buy potions, enchantments (Sharpness,
+  Suryataap, Shield ward) and armour up to the legendary **Swarna Heer** set.
+- **Descend beneath the palace.** Fight through the Sun Market, a soot creature bound to three trees,
+  a tavern brute, the Outer Hall, the Broken Causeway, and the priest Vajraka's ward of stone-winged
+  Shilapaksha.
+- **Face Agnivara**, then make a choice that decides what wakes beneath the city. There are three endings.
+
+No install or account needed. Your progress saves automatically in your browser.
+
+---
 
 ## Architecture
 
