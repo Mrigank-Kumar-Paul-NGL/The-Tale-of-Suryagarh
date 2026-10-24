@@ -96,6 +96,9 @@ def load():
     if raw is None:
         return None
     try:
+        c = raw.get("character") or {}
+        if c.get("origin") in story.LEGACY_ORIGINS:
+            c["origin"] = story.LEGACY_ORIGINS[c["origin"]]
         state = _migrate(raw)
         shop.ensure(state)
         return state

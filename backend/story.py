@@ -22,35 +22,6 @@ ANCESTRIES = {
 }
 
 ORIGINS = {
-    "palace_ward": {
-        "label": "Palace Ward",
-        "returning": True,
-        "summary": "Raised as a ward inside the palace; left years ago and now returns.",
-        "arrival_place": "the Lotus Gate, the palace-side entrance to the city",
-        "recognition": "Old gatekeeper Bhima, who once smuggled the player sweets from the palace kitchens, "
-                       "recognises them, but struggles to recall their name.",
-        "callbacks": ["Remembers the dawn ceremony when the brass wheel opened from the palace balconies.",
-                      "Knows the palace corridors and its servants by sight."],
-    },
-    "performer": {
-        "label": "Traveling Performer",
-        "returning": False,
-        "summary": "A wandering performer arriving in Suryagarh for the first time.",
-        "arrival_place": "the Caravan Road gate, with a battered props cart",
-        "recognition": "Lalita, a market crier who was promised the troupe's show, greets the player, "
-                       "relieved and frightened, and says the Sun Market was to be their stage.",
-        "callbacks": ["Reads crowds and panic like an audience.",
-                      "Came for the Festival of First Light, which never began."],
-    },
-    "healer": {
-        "label": "Village Healer",
-        "returning": False,
-        "summary": "A healer from the hill village of Kesarpur, arriving in the city for the first time.",
-        "arrival_place": "the river ghats, stepping off a ferry",
-        "recognition": "Old ferryman Hari begs the player to look at his wife, who no longer remembers his name.",
-        "callbacks": ["Notices the forgetting as a symptom, like a sickness.",
-                      "Carries herbs and a satchel of village remedies."],
-    },
     "temple_guard": {
         "label": "Former Temple Guard",
         "returning": True,
@@ -61,7 +32,40 @@ ORIGINS = {
         "callbacks": ["Knows the temple guard oaths and drills.",
                       "Remembers the temple fire that was never supposed to go out, now guttering."],
     },
+    "barbarian": {
+        "label": "Barbarian",
+        "returning": False,
+        "summary": "A warrior of the northern hill clans, entering the great city for the first time.",
+        "arrival_place": "the North Gate, where hill-clan caravans unload furs and salt",
+        "recognition": "Gate sergeant Rudra eyes the player's weapons and clan markings warily, then lowers his "
+                       "spear when a frightened child asks the player whether the sun is gone for ever.",
+        "callbacks": ["Trusts strength and instinct over the city's polite words.",
+                      "Recognises the asura raiders' tactics: they move like a northern war-band, not a mob."],
+    },
+    "soldier": {
+        "label": "Veteran Soldier",
+        "returning": True,
+        "summary": "A soldier back from years of war on the far frontier, returning home to Suryagarh.",
+        "arrival_place": "the Barracks Road, past the old garrison walls",
+        "recognition": "Old quartermaster Kesar recognises the player's regiment scars and salutes, "
+                       "but cannot remember the name of the regiment he himself once served in.",
+        "callbacks": ["Still hears the war drums at night; these raids feel like a war, not a riot.",
+                      "Knows how armies march, how sieges begin, and how the palace guard is drilled."],
+    },
+    "bounty_hunter": {
+        "label": "Bounty Hunter",
+        "returning": False,
+        "summary": "A hunter of wanted men and beasts, following a bounty into Suryagarh for the first time.",
+        "arrival_place": "the river ghats, stepping off a ferry",
+        "recognition": "Hari, the ferryman who carried the player across, quietly warns that the bounty notices "
+                       "in the city have gone blank: the names on them have been forgotten.",
+        "callbacks": ["Reads tracks, wounds and lies for a living.",
+                      "Came chasing a bounty, but the forgetting has erased the target's name from every notice."],
+    },
 }
+
+# Saves made before these origins existed are moved to the closest new origin.
+LEGACY_ORIGINS = {"palace_ward": "soldier", "performer": "bounty_hunter", "healer": "barbarian"}
 
 # Stage 1 scenes. `actions` are the only legal moves; Python checks every request against them.
 # Scenes. `actions` are the only legal moves; Python checks every request against them.

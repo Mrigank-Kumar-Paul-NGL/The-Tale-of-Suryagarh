@@ -1,5 +1,5 @@
 import { api } from "./api.js";
-import { applySceneArt, setMusic } from "./assets.js";
+import { applySceneArt, setMusic, toggleMusic, onMusicChange } from "./assets.js";
 import { renderCreate } from "./create.js";
 import { renderCombat, setCombatHandlers } from "./combat.js";
 import { renderShop, showShopError } from "./shop.js";
@@ -110,7 +110,7 @@ function render(view) {
   const inCombat = !!view.combat;
   $("combat-view").hidden = !inCombat;
   document.querySelector(".panel.scene").hidden = inCombat;
-  setMusic(inCombat ? "combat" : view.scene.music);
+  setMusic(inCombat ? (view.combat.id === "agnivara" ? "agnivara" : "combat") : view.scene.music);
 
   if (inCombat) {
     $("combat-error").hidden = true;
@@ -223,6 +223,13 @@ $("btn-new").addEventListener("click", async () => {
   if (busy) return;
   if (!confirm("Start a new game? Your current save will be erased.")) return;
   render(await api.reset());
+});
+
+// ---------- Music toggle ----------
+$("btn-audio").addEventListener("click", () => toggleMusic());
+onMusicChange((m) => {
+  $("btn-audio").textContent = m.blocked ? "▶ Tap to play music" : m.muted ? "Music: off" : "Music: on";
+  $("music-now").textContent = m.playing ? `♪ ${m.title}` : "";
 });
 
 // ---------- Boot ----------

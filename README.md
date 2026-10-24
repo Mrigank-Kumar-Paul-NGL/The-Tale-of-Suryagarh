@@ -12,7 +12,8 @@ by the game engine, and bad decisions can get you killed.
 
 **What you do**
 
-- **Forge your hero.** Pick a name, ancestry (Human, Vanara or Naga-blooded), origin, and appearance.
+- **Forge your hero.** Pick a name, ancestry (Human, Vanara or Naga-blooded), origin (Former Temple Guard, Barbarian,
+  Veteran Soldier or Bounty Hunter), and appearance.
   The story remembers who you are and where you came from.
 - **Fight with your wits.** Read each enemy's tell, then strike, dodge, parry or guard. Manage Stamina
   and Magicka, and drink potions at the right moment.
@@ -88,6 +89,10 @@ Local Ollama Qwen is never used on the hosted site. On a laptop it is opt-in onl
 
 Scene art: `web/assets/art/<key>.jpg` (keys: `arrival`, `sun_market`, `arcanium`, `tavern`, `palace`, `dungeon`,
 `crystal_chamber`, `ending`). Missing files are ignored.
+
+Music: tracks are listed in `TRACKS` in `web/js/assets.js`. Currently `agnivara` →
+`web/assets/audio/agnivara.mp3` ("For Blood, for Glory, for Honor"), which loops during the Agnivara fight.
+Players can mute it from the side panel; the choice is remembered.
 
 ## License
 
